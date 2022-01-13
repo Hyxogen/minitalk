@@ -9,7 +9,7 @@ LIBFT_LIB		:= $(LIBFT_DIR)/libft.a
 
 SRC_DIR			:= ./src
 
-SRC_FILES		:= server.c stream.c
+SRC_FILES		:= server.c
 OBJ_FILES		:= $(addprefix $(INT_DIR)/,$(SRC_FILES:%.c=%.o))
 
 VPATH			:= $(SRC_DIR)

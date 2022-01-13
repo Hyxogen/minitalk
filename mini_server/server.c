@@ -6,13 +6,13 @@
 #include <stdio.h>
 #include <ft_string.h>
 #include <ft_stdbool.h>
-#include "stream.h"
+#include <ft_sstream.h>
 
 #ifndef SERVER_BUFFER_SIZE
 #define SERVER_BUFFER_SIZE 10
 #endif
 
-static t_io_stream g_stream;
+static t_sstream g_stream;
 
 ft_bool push_back_bit(ft_bool bit, char *val)
 {
