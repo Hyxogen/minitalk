@@ -1,0 +1,4 @@
+[submodule "Dependencies/libft"]
+	path = Dependencies/libft
+	url = git@github.com:Hyxogen/Libft.git
+	branch = master

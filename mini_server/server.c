@@ -1,9 +1,11 @@
+#define _POSIC_C_SOURCE 199309L
+#define _XOPEN_SOURCE 500
 #include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
+#include <ft_string.h>
+#include <ft_stdbool.h>
 #include "stream.h"
 
 #ifndef SERVER_BUFFER_SIZE
@@ -12,7 +14,7 @@
 
 static t_io_stream g_stream;
 
-bool push_back_bit(bool bit, char *val)
+ft_bool push_back_bit(ft_bool bit, char *val)
 {
 	static char byte = 0;
 	static int bit_pos = 0;
@@ -24,7 +26,7 @@ bool push_back_bit(bool bit, char *val)
 	return (!(bit_pos %= 8));
 }
 
-bool push_back_byte(char byte)
+ft_bool push_back_byte(char byte)
 {
 	stream_write(&g_stream, &byte, 1);
 	return (byte == '\0');
@@ -33,16 +35,16 @@ bool push_back_byte(char byte)
 void handler(int sig, siginfo_t *info, void *context)
 {
 	char val;
-	char *str;
-	bool done;
-	bool print;
+	ft_bool done;
+	ft_bool print;
 
+	(void)context;
 	usleep(1);
-	print = false;
+	print = FALSE;
 	if (sig == SIGUSR1)
-		done = push_back_bit(false, &val);
+		done = push_back_bit(FALSE, &val);
 	else
-		done = push_back_bit(true, &val);
+		done = push_back_bit(TRUE, &val);
 	if (done)
 		print = push_back_byte(val);
 	if (print)
@@ -54,7 +56,7 @@ void init(void)
 {
 	struct sigaction ac;
 
-	memset(&ac, 0, sizeof(sigaction));
+	ft_memset(&ac, 0, sizeof(struct sigaction));
 	sigemptyset(&ac.sa_mask);
 	ac.sa_sigaction = handler;
 	ac.sa_flags = SA_SIGINFO;/*Bitwise or equals mag niet?*/

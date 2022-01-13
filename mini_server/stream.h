@@ -1,6 +1,10 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#ifndef STREAM_BUFFER_SIZE
+#define STREAM_BUFFER_SIZE 4
+#endif
+
 # include <sys/types.h>
 
 typedef struct s_io_stream

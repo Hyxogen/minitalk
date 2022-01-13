@@ -1,23 +1,27 @@
-TARGET				:= client
+TARGET			:= client
 
-LIBFT_DIR			:= $(DEPEND_DIR)/Libft
-LIBFT_LIB			:= $(LIBFT_DIR)/libft.a
+PARENT_DIR 		:= ..
+DEPEND_DIR 		:= $(PARENT_DIR)/Dependencies
+INT_DIR 		:= ./obj
 
-SRC_DIR				:= ./src
+LIBFT_DIR		:= $(DEPEND_DIR)/libft
+LIBFT_LIB		:= $(LIBFT_DIR)/libft.a
 
-SRC_FILES			:= 
-OBJ_FILES			:= $(addprefix $(INT_DIR)/,$(SRC_FILES:%.c=%.o))
+SRC_DIR			:= ./src
 
-VPATH				:= $(SRC_DIR)
+SRC_FILES		:= client.c
+OBJ_FILES		:= $(addprefix $(INT_DIR)/,$(SRC_FILES:%.c=%.o))
 
-DEFINES				:=
+VPATH			:= $(SRC_DIR)
+
+DEFINES			:=
 INCLUDE_DIRS		:= -I $(LIBFT_DIR)/include
-LIBRARIES			:= $(LIBFT_LIB)
+LIBRARIES		:= $(LIBFT_LIB)
 
-CC					:= cc
-LINK_CMD			:= cc
+CC			:= clang
+LINK_CMD		:= clang
 
-ALL_CFLAGS			:= -std=c89 -Wall -Wextra -Werror -pedantic $(INCLUDE_DIRS)
+ALL_CFLAGS		:= -std=c89 -Wall -Wextra -Werror -pedantic $(INCLUDE_DIRS)
 ALL_LINKFLAGS		:=
 
 DEBUG_CFLAGS		:= -g -O0 -fsanitize=address
@@ -38,7 +42,7 @@ ifdef verbose
 endif
 
 ifndef config
-	config := release
+	config := debug
 endif
 
 ifeq ($(config), debug)
@@ -67,7 +71,7 @@ $(INT_DIR)/%.o: %.c
 	$(SILENT)$(CC) $(ALL_CFLAGS) -c $< -o $@
 
 $(LIBFT_LIB):
-	$(SILENT) make -C $(LIBFT_DIR)
+	$(SILENT)${MAKE} -C $(LIBFT_DIR) -f Makefile config=distr
 
 clean:
 	$(SILENT)echo Cleaning object files
