@@ -5,31 +5,31 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <ft_string.h>
+#include <mini_assert.h>
 
 static char *g_message;
-static size_t g_bits_left;
 
-void send_bit(ft_bool bit, pid_t pid)
+ft_bool send_bit(ft_bool bit, pid_t pid)
 {
-	int success;
-
 	if (bit)
-		success = kill(pid, SIGUSR2);
-	else
-		success = kill(pid, SIGUSR1);
-	(void)success;
+		return (kill(pid, SIGUSR2) == 0);
+	return (kill(pid, SIGUSR1) == 0);
 }
 
-ft_bool get_next_bit()
+int get_next_bit()
 {
 	static int bit_pos = 0;
 	ft_bool bit;
+
+	if (bit_pos < 0)
+		return (-1);
 	bit = *g_message & (1 << bit_pos);
+	if (bit_pos == 7 && *g_message == '\0')
+		bit_pos = -2;
 	bit_pos++;
 	bit_pos = bit_pos % 8;
 	if (bit_pos == 0)
 		g_message++;
-	g_bits_left--;
 	return (bit);
 }
 
@@ -39,28 +39,40 @@ void handler(int sig, siginfo_t *info, void *context)
 
 	(void)sig;
 	(void)context;
-	if (g_bits_left == 0)
-		exit(EXIT_SUCCESS);
 	bit = get_next_bit();
-	send_bit(bit, info->si_pid);
+	if (bit < 0)
+		exit(EXIT_SUCCESS);
+	mini_assert(send_bit(bit, info->si_pid));
+}
+
+static ft_bool init(void)
+{
+	struct sigaction ac;
+
+	ft_memset(&ac, 0, sizeof(struct sigaction));
+	if (sigemptyset(&ac.sa_mask) != 0)
+		return (FALSE);
+	ac.sa_sigaction = handler;
+	ac.sa_flags = SA_SIGINFO;
+
+	if (sigaction(SIGUSR1, &ac, NULL) != 0)
+		return (FALSE);
+	if (sigaction(SIGUSR2, &ac, NULL) != 0)
+		return (FALSE);
+	return (TRUE);
 }
 
 int main(int argc, char **argv)
 {
-	pid_t pid = atoi(argv[1]);
-	struct sigaction ac;
+	pid_t pid;
 
-	(void)argc;
-	ft_memset(&ac, 0, sizeof(struct sigaction));
-	sigemptyset(&ac.sa_mask);
-	ac.sa_sigaction = handler;
-	ac.sa_flags = SA_SIGINFO;
+	if (argc != 3)
+		exit(EXIT_FAILURE);
+	pid = atoi(argv[1]);
 
-	sigaction(SIGUSR1, &ac, NULL);
-	sigaction(SIGUSR2, &ac, NULL);
 	g_message = argv[2];
-	g_bits_left = (ft_strlen(argv[2]) + 1) * 8;
 
+	mini_assert(init());
 	send_bit(get_next_bit(), pid);
 
 	while (1)

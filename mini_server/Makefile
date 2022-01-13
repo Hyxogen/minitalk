@@ -7,6 +7,9 @@ INT_DIR 		:= ./obj
 LIBFT_DIR		:= $(DEPEND_DIR)/libft
 LIBFT_LIB		:= $(LIBFT_DIR)/libft.a
 
+UTILS_DIR 		:= ../mini_utils
+UTILS_LIB 		:= $(UTILS_DIR)/mini_utils.a
+
 SRC_DIR			:= ./src
 
 SRC_FILES		:= server.c
@@ -15,8 +18,8 @@ OBJ_FILES		:= $(addprefix $(INT_DIR)/,$(SRC_FILES:%.c=%.o))
 VPATH			:= $(SRC_DIR)
 
 DEFINES			:=
-INCLUDE_DIRS		:= -I $(LIBFT_DIR)/include
-LIBRARIES		:= $(LIBFT_LIB)
+INCLUDE_DIRS		:= -I $(LIBFT_DIR)/include -I $(UTILS_DIR)/include
+LIBRARIES		:= $(LIBFT_LIB) $(UTILS_LIB)
 
 CC			:= clang
 LINK_CMD		:= clang
@@ -72,6 +75,9 @@ $(INT_DIR)/%.o: %.c
 
 $(LIBFT_LIB):
 	$(SILENT)${MAKE} -C $(LIBFT_DIR) -f Makefile config=distr
+
+$(UTILS_LIB):
+	$(SILENT)${MAKE} -C $(UTILS_DIR) -f Makefile config=distr
 
 clean:
 	$(SILENT)echo Cleaning object files
