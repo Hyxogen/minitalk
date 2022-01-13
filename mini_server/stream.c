@@ -1,12 +1,13 @@
 #include "stream.h"
 
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
+#include <ft_string.h>
+#include <ft_stdlib.h>
 
 int _stream_grow(t_io_stream *stream, size_t new_size)
 {
-	stream->m_ptr_begin = realloc(stream->m_ptr_begin, new_size);
+	stream->m_ptr_begin = ft_realloc(stream->m_ptr_begin, stream->m_buffersize, new_size);
 	stream->m_buffersize = new_size;
 	return (stream->m_ptr_begin == 0);
 }
@@ -26,7 +27,7 @@ int stream_write(t_io_stream *stream, const char *str, size_t len)
 		_stream_grow(stream, stream->m_buffersize + STREAM_BUFFER_SIZE); /*To fast grow*/
 		return (stream_write(stream, str, len));
 	}
-	memcpy(&stream->m_ptr_begin[stream->m_write_offset], str, len);
+	ft_memcpy(&stream->m_ptr_begin[stream->m_write_offset], str, len);
 	stream->m_write_offset += len;
 	return (1);
 }
