@@ -8,19 +8,21 @@
 #include <mini_assert.h>
 #include <ft_stdlib.h>
 
-static char *g_message;
+static char	*g_message;
 
-ft_bool send_bit(ft_bool bit, pid_t pid)
+ft_bool
+	send_bit(ft_bool bit, pid_t pid)
 {
 	if (bit)
 		return (kill(pid, SIGUSR2) == 0);
 	return (kill(pid, SIGUSR1) == 0);
 }
 
-int get_next_bit()
+int
+	get_next_bit(void)
 {
-	static int bit_pos = 0;
-	ft_bool bit;
+	static int	bit_pos = 0;
+	ft_bool		bit;
 
 	if (bit_pos < 0)
 		return (-1);
@@ -34,9 +36,10 @@ int get_next_bit()
 	return (bit);
 }
 
-void handler(int sig, siginfo_t *info, void *context)
+void
+	handler(int sig, siginfo_t *info, void *context)
 {
-	ft_bool bit;
+	ft_bool	bit;
 
 	(void)sig;
 	(void)context;
@@ -46,16 +49,16 @@ void handler(int sig, siginfo_t *info, void *context)
 	mini_assert(send_bit(bit, info->si_pid));
 }
 
-static ft_bool init(void)
+static ft_bool
+	init(void)
 {
-	struct sigaction ac;
+	struct sigaction	ac;
 
 	ft_memset(&ac, 0, sizeof(struct sigaction));
 	if (sigemptyset(&ac.sa_mask) != 0)
 		return (FALSE);
 	ac.sa_sigaction = handler;
 	ac.sa_flags = SA_SIGINFO;
-
 	if (sigaction(SIGUSR1, &ac, NULL) != 0)
 		return (FALSE);
 	if (sigaction(SIGUSR2, &ac, NULL) != 0)
@@ -63,20 +66,17 @@ static ft_bool init(void)
 	return (TRUE);
 }
 
-int main(int argc, char **argv)
+int
+	main(int argc, char **argv)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	mini_assert(argc == 3);
 	mini_assert(ft_checked_atoi(argv[1], &pid));
 	g_message = argv[2];
-
 	mini_assert(init());
 	send_bit(get_next_bit(), pid);
-
 	while (1)
-	{
-
-	}
+		;
 	return (0);
 }
