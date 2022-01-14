@@ -8,17 +8,19 @@
 #include <ft_stdbool.h>
 #include <ft_sstream.h>
 #include <mini_assert.h>
+#include <ft_stdio.h>
 
 #ifndef SERVER_BUFFER_SIZE
-#define SERVER_BUFFER_SIZE 10
+# define SERVER_BUFFER_SIZE 10
 #endif
 
-static t_sstream g_stream;
+static t_sstream	g_stream;
 
-ft_bool push_back_bit(ft_bool bit, char *val)
+ft_bool
+	push_back_bit(ft_bool bit, char *val)
 {
-	static char byte = 0;
-	static int bit_pos = 0;
+	static char	byte = 0;
+	static int	bit_pos = 0;
 
 	byte &= ~(1 << bit_pos);
 	byte |= (bit == 1) << bit_pos;
@@ -27,17 +29,19 @@ ft_bool push_back_bit(ft_bool bit, char *val)
 	return (!(bit_pos %= 8));
 }
 
-ft_bool push_back_byte(char byte)
+ft_bool
+	push_back_byte(char byte)
 {
 	mini_assert(stream_write(&g_stream, &byte, 1));
 	return (byte == '\0');
 }
 
-void handler(int sig, siginfo_t *info, void *context)
+void
+	handler(int sig, siginfo_t *info, void *context)
 {
-	char val;
-	ft_bool done;
-	ft_bool print;
+	char	val;
+	ft_bool	done;
+	ft_bool	print;
 
 	(void)context;
 	mini_assert(usleep(1) == 0);
@@ -53,9 +57,10 @@ void handler(int sig, siginfo_t *info, void *context)
 	mini_assert(kill(info->si_pid, SIGUSR2) == 0);
 }
 
-ft_bool init(void)
+ft_bool
+	init(void)
 {
-	struct sigaction ac;
+	struct sigaction	ac;
 
 	ft_memset(&ac, 0, sizeof(struct sigaction));
 	if (sigemptyset(&ac.sa_mask) == -1)
@@ -71,15 +76,17 @@ ft_bool init(void)
 	return (TRUE);
 }
 
-int main(void)
+int
+	main(void)
 {
-	pid_t pid = getpid();
+	pid_t	pid;
 
+	pid = getpid();
 	mini_assert(init());
-	printf("pid:%d\n", pid);
-	
+	ft_putstr_fd(STDIN_FILENO, "pid:");
+	ft_putnbr_fd(STDOUT_FILENO, pid);
+	ft_putchar_fd(STDOUT_FILENO, '\n');
 	while (1)
-	{
-
-	}
+		;
+	return (0);
 }
