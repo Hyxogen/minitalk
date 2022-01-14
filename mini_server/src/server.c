@@ -61,7 +61,7 @@ ft_bool init(void)
 	if (sigemptyset(&ac.sa_mask) == -1)
 		return (FALSE);
 	ac.sa_sigaction = handler;
-	ac.sa_flags = SA_SIGINFO;/*Bitwise or equals mag niet?*/
+	ac.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGUSR1, &ac, NULL) == -1)
 		return (FALSE);
 	if (sigaction(SIGUSR2, &ac, NULL) == -1)

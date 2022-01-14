@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <ft_string.h>
 #include <mini_assert.h>
+#include <ft_stdlib.h>
 
 static char *g_message;
 
@@ -66,10 +67,8 @@ int main(int argc, char **argv)
 {
 	pid_t pid;
 
-	if (argc != 3)
-		exit(EXIT_FAILURE);
-	pid = atoi(argv[1]);
-
+	mini_assert(argc == 3);
+	mini_assert(ft_checked_atoi(argv[1], &pid));
 	g_message = argv[2];
 
 	mini_assert(init());
