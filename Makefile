@@ -16,7 +16,7 @@ UTILS_DIR				:= ./mini_utils
 UTILS_LIB				:= $(UTILS_DIR)/mini_utils.a
 
 ifndef config
-	config := release
+	config := debug
 endif
 
 ifeq ($(config),debug)

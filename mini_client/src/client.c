@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 08:19:48 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 08:28:51 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 10:31:41 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static t_bool
 	if (sigemptyset(&ac.sa_mask) != 0)
 		return (FALSE);
 	ac.sa_sigaction = handler;
-	ac.sa_flags = SA_SIGINFO;
+	ac.sa_flags = SA_SIGINFO | SA_NODEFER;
 	if (sigaction(SIGUSR1, &ac, NULL) != 0)
 		return (FALSE);
 	if (sigaction(SIGUSR2, &ac, NULL) != 0)

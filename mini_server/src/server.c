@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 08:19:02 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 08:28:51 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 10:24:50 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@
 #include <ft_sstream.h>
 #include <mini_assert.h>
 #include <ft_stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifndef SERVER_BUFFER_SIZE
-# define SERVER_BUFFER_SIZE 1024
+# define SERVER_BUFFER_SIZE 7000000
 #endif
 
 static t_sstream	g_stream;
@@ -54,7 +56,6 @@ void
 	t_bool	print;
 
 	(void)context;
-	mini_assert(usleep(1) == 0);
 	print = FALSE;
 	if (sig == SIGUSR1)
 		done = push_back_bit(FALSE, &val);
@@ -64,6 +65,8 @@ void
 		print = push_back_byte(val);
 	if (print)
 		mini_assert(stream_flush(&g_stream, 1));
+	if (info->si_pid == 0)
+		exit(EXIT_FAILURE);
 	mini_assert(kill(info->si_pid, SIGUSR2) == 0);
 }
 
@@ -73,10 +76,10 @@ t_bool
 	struct sigaction	ac;
 
 	ft_memset(&ac, 0, sizeof(struct sigaction));
-	if (sigemptyset(&ac.sa_mask) == -1)
+	if (sigemptyset(&(ac.sa_mask)) == -1)
 		return (FALSE);
 	ac.sa_sigaction = handler;
-	ac.sa_flags = SA_SIGINFO;
+	ac.sa_flags = SA_SIGINFO | SA_NODEFER;
 	if (sigaction(SIGUSR1, &ac, NULL) == -1)
 		return (FALSE);
 	if (sigaction(SIGUSR2, &ac, NULL) == -1)
