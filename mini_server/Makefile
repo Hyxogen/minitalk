@@ -1,30 +1,30 @@
-TARGET			:= server
+TARGET				:= server 
 
-PARENT_DIR 		:= ..
-DEPEND_DIR 		:= $(PARENT_DIR)/Dependencies
-INT_DIR 		:= ./obj
+PARENT_DIR 			:= ..
+DEPEND_DIR 			:= $(PARENT_DIR)/Dependencies
+INT_DIR 			:= ./obj
 
-LIBFT_DIR		:= $(DEPEND_DIR)/libft
-LIBFT_LIB		:= $(LIBFT_DIR)/libft.a
+LIBFT_DIR			:= $(DEPEND_DIR)/libft
+LIBFT_LIB			:= $(LIBFT_DIR)/libft.a
 
-UTILS_DIR 		:= ../mini_utils
-UTILS_LIB 		:= $(UTILS_DIR)/mini_utils.a
+UTILS_DIR 			:= ../mini_utils
+UTILS_LIB 			:= $(UTILS_DIR)/mini_utils.a
 
-SRC_DIR			:= ./src
+SRC_DIR				:= ./src
 
-SRC_FILES		:= server.c
-OBJ_FILES		:= $(addprefix $(INT_DIR)/,$(SRC_FILES:%.c=%.o))
+SRC_FILES			:= server.c
+OBJ_FILES			:= $(addprefix $(INT_DIR)/,$(SRC_FILES:%.c=%.o))
 
-VPATH			:= $(SRC_DIR)
+VPATH				:= $(SRC_DIR)
 
-DEFINES			:=
+DEFINES				:=
 INCLUDE_DIRS		:= -I $(LIBFT_DIR)/include -I $(UTILS_DIR)/include
-LIBRARIES		:= $(LIBFT_LIB) $(UTILS_LIB)
+LIBRARIES			:= $(LIBFT_LIB) $(UTILS_LIB)
 
-CC			:= clang
-LINK_CMD		:= clang
+CC					:= clang
+LINK_CMD			:= clang
 
-ALL_CFLAGS		:= -std=c89 -Wall -Wextra -Werror -pedantic $(INCLUDE_DIRS)
+ALL_CFLAGS			:= -std=c89 -Wall -Wextra -Werror -pedantic $(INCLUDE_DIRS)
 ALL_LINKFLAGS		:=
 
 DEBUG_CFLAGS		:= -g -O0 -fsanitize=address
@@ -39,7 +39,7 @@ DISTR_CFLAGS		:= -Ofast -g0
 DISTR_LINKFLAGS		:=
 DISTR_DEFINES		:= -DMINI_SERVER_DISTRIBUTION
 
-SILENT		:= @
+SILENT				:= @
 ifdef verbose
 	SILENT	:=
 endif
@@ -73,14 +73,8 @@ $(INT_DIR)/%.o: %.c
 	$(SILENT)mkdir -p $(INT_DIR)
 	$(SILENT)$(CC) $(ALL_CFLAGS) -c $< -o $@
 
-$(LIBFT_LIB):
-	$(SILENT)${MAKE} -C $(LIBFT_DIR) -f Makefile config=distr
-
-$(UTILS_LIB):
-	$(SILENT)${MAKE} -C $(UTILS_DIR) -f Makefile config=distr
-
 clean:
-	$(SILENT)echo Cleaning object files
+	$(SILENT)echo Cleaning object files for $(TARGET)
 	$(SILENT)rm -f $(OBJ_FILES)
 
 fclean: clean
