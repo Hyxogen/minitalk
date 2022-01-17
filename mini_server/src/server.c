@@ -1,5 +1,15 @@
-#define _POSIC_C_SOURCE 199309L
-#define _XOPEN_SOURCE 500
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   server.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 08:19:02 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 08:19:20 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -11,7 +21,7 @@
 #include <ft_stdio.h>
 
 #ifndef SERVER_BUFFER_SIZE
-# define SERVER_BUFFER_SIZE 10
+# define SERVER_BUFFER_SIZE 1024
 #endif
 
 static t_sstream	g_stream;
