@@ -45,12 +45,12 @@ all: $(NAME)
 $(CLIENT_TARGET): $(LIBFT_LIB) $(UTILS_LIB)
 	@echo "=== Building $(CLIENT_TARGET) ($(client_config)) ==="
 	@${MAKE} -C $(CLIENT_DIR) -f Makefile config=$(client_config) 
-	@mv $(CLIENT_DIR)/$(CLIENT_TARGET) .
+	@cp $(CLIENT_DIR)/$(CLIENT_TARGET) .
 
 $(SERVER_TARGET): $(LIBFT_LIB) $(UTILS_LIB)
 	@echo "=== Building $(SERVER_TARGET) ($(server_config)) ==="
 	@${MAKE} -C $(SERVER_DIR) -f Makefile config=$(server_config) 
-	@mv $(SERVER_DIR)/$(SERVER_TARGET) .
+	@cp $(SERVER_DIR)/$(SERVER_TARGET) .
 
 $(LIBFT_LIB):
 	@echo "=== Building $(LIBFT_LIB) ($(libft_config)) ==="
