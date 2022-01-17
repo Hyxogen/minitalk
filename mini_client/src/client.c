@@ -1,4 +1,15 @@
-#define _POSIX_C_SOURCE 199309L
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   client.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/17 08:19:48 by dmeijer       #+#    #+#                 */
+/*   Updated: 2022/01/17 08:19:48 by dmeijer       ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/types.h>
 #include <unistd.h>
 #include <ft_stdbool.h>
