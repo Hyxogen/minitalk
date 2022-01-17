@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 08:19:02 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 08:19:20 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 08:28:51 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 static t_sstream	g_stream;
 
-ft_bool
-	push_back_bit(ft_bool bit, char *val)
+t_bool
+	push_back_bit(t_bool bit, char *val)
 {
 	static char	byte = 0;
 	static int	bit_pos = 0;
@@ -39,7 +39,7 @@ ft_bool
 	return (!(bit_pos %= 8));
 }
 
-ft_bool
+t_bool
 	push_back_byte(char byte)
 {
 	mini_assert(stream_write(&g_stream, &byte, 1));
@@ -50,8 +50,8 @@ void
 	handler(int sig, siginfo_t *info, void *context)
 {
 	char	val;
-	ft_bool	done;
-	ft_bool	print;
+	t_bool	done;
+	t_bool	print;
 
 	(void)context;
 	mini_assert(usleep(1) == 0);
@@ -67,7 +67,7 @@ void
 	mini_assert(kill(info->si_pid, SIGUSR2) == 0);
 }
 
-ft_bool
+t_bool
 	init(void)
 {
 	struct sigaction	ac;

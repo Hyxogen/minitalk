@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 08:19:48 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 08:19:48 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 08:28:51 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 static char	*g_message;
 
-ft_bool
-	send_bit(ft_bool bit, pid_t pid)
+t_bool
+	send_bit(t_bool bit, pid_t pid)
 {
 	if (bit)
 		return (kill(pid, SIGUSR2) == 0);
@@ -33,7 +33,7 @@ int
 	get_next_bit(void)
 {
 	static int	bit_pos = 0;
-	ft_bool		bit;
+	t_bool		bit;
 
 	if (bit_pos < 0)
 		return (-1);
@@ -50,7 +50,7 @@ int
 void
 	handler(int sig, siginfo_t *info, void *context)
 {
-	ft_bool	bit;
+	t_bool	bit;
 
 	(void)sig;
 	(void)context;
@@ -60,7 +60,7 @@ void
 	mini_assert(send_bit(bit, info->si_pid));
 }
 
-static ft_bool
+static t_bool
 	init(void)
 {
 	struct sigaction	ac;

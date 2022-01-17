@@ -6,7 +6,7 @@
 /*   By: dmeijer <dmeijer@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/17 08:17:37 by dmeijer       #+#    #+#                 */
-/*   Updated: 2022/01/17 08:17:47 by dmeijer       ########   odam.nl         */
+/*   Updated: 2022/01/17 08:28:51 by dmeijer       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include <ft_stdbool.h>
 
-void	mini_assert(ft_bool assertion);
+void	mini_assert(t_bool assertion);
 
 #endif
